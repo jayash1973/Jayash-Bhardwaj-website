@@ -545,7 +545,6 @@
             display: flex;
             gap: var(--space-lg);
             align-items: center;
-            justify-content: center;
         }
 
         .about-text {
@@ -562,7 +561,6 @@
             position: relative;
             max-width: 800px;
             margin: 0 auto;
-            justify-content: center;
         }
 
         .timeline::before {
@@ -678,7 +676,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: var(--space-lg);
-            justify-content: center;
         }
 
         .project-card {
@@ -771,7 +768,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: var(--space-lg);
-            justify-content: center;
         }
 
         .skill-category {
@@ -875,7 +871,6 @@
         .contact-content {
             max-width: 600px;
             margin: 0 auto;
-            justify-content: center;
         }
 
         .contact-info {
@@ -1184,7 +1179,7 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
+        <div class="container hero-container">
             <div class="hero-content" data-aos="fade-up">
                 <h1 class="glitch" data-text="Jayash Bhardwaj">Jayash Bhardwaj</h1>
                 <h2>ML Engineer & AI Product Manager</h2>
@@ -1192,6 +1187,59 @@
                 <div class="hero-cta">
                     <a href="#projects" class="btn primary-btn magnetic-btn">View Projects</a>
                     <a href="#contact" class="btn secondary-btn magnetic-btn">Contact Me</a>
+                </div>
+            </div>
+            
+            <!-- ML Engineer Visual Representation -->
+            <div class="ml-visual-container" data-aos="fade-left" data-aos-delay="300">
+                <!-- Neural Network Visualization -->
+                <div class="neural-network">
+                    <div class="nn-layer input-layer">
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                    </div>
+                    <div class="nn-layer hidden-layer-1">
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                    </div>
+                    <div class="nn-layer hidden-layer-2">
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                    </div>
+                    <div class="nn-layer output-layer">
+                        <div class="nn-node"></div>
+                        <div class="nn-node"></div>
+                    </div>
+                </div>
+                
+                <!-- Data Points Visualization -->
+                <div class="data-visualization">
+                    <div class="data-point" style="--x: 20%; --y: 30%; --size: 6px; --color: var(--secondary); --delay: 0.2s;"></div>
+                    <div class="data-point" style="--x: 35%; --y: 45%; --size: 8px; --color: var(--secondary); --delay: 0.5s;"></div>
+                    <div class="data-point" style="--x: 60%; --y: 25%; --size: 7px; --color: var(--accent); --delay: 0.8s;"></div>
+                    <div class="data-point" style="--x: 75%; --y: 60%; --size: 9px; --color: var(--accent); --delay: 1.1s;"></div>
+                    <div class="data-point" style="--x: 45%; --y: 70%; --size: 8px; --color: var(--secondary); --delay: 1.4s;"></div>
+                    <div class="data-point" style="--x: 85%; --y: 40%; --size: 7px; --color: var(--secondary); --delay: 1.7s;"></div>
+                    <div class="data-point" style="--x: 30%; --y: 80%; --size: 9px; --color: var(--accent); --delay: 2.0s;"></div>
+                    <div class="data-point" style="--x: 55%; --y: 15%; --size: 6px; --color: var(--accent); --delay: 2.3s;"></div>
+                </div>
+                
+                <!-- Decision Boundary -->
+                <div class="decision-boundary"></div>
+                
+                <!-- Floating ML Terms -->
+                <div class="floating-terms">
+                    <span class="floating-term" style="--x: 15%; --y: 25%; --delay: 0.5s;">TensorFlow</span>
+                    <span class="floating-term" style="--x: 75%; --y: 40%; --delay: 1.2s;">PyTorch</span>
+                    <span class="floating-term" style="--x: 50%; --y: 70%; --delay: 1.8s;">Deep Learning</span>
+                    <span class="floating-term" style="--x: 25%; --y: 55%; --delay: 2.4s;">Computer Vision</span>
+                    <span class="floating-term" style="--x: 65%; --y: 15%; --delay: 3.0s;">NLP</span>
                 </div>
             </div>
         </div>
@@ -1229,8 +1277,8 @@
                     <div class="timeline-content">
                         <h3>OMDENA TASK MANAGER and CONTRIBUTOR</h3>
                         <p class="company">Omdena</p>
-                        <p class="date">March 2025 - Currently</p>
-                        <p class="description">Managed the task of baseline modelling in detecting plastic debris. Developed the attention UNET model for pixel level segmentation of plastic in mediterranean sea. Contributing to various other projects and challanges as ML engineer and product manager</p>
+                        <p class="date">March 2025 - April 2025</p>
+                        <p class="description">Managed the task of baseline modelling in detecting plastic debris. Developed the attention UNET model for pixel level segmentation of plastic in mediterranean sea.</p>
                     </div>
                 </div>
                 <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
@@ -1403,20 +1451,36 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <a href="mailto:jayashbhardwaj294@gmail.com">jayashbhardwaj294@gmail.com</a>
+                        <a href="mailto:jayashbhardwaj36@gmail.com">jayashbhardwaj36@gmail.com</a>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
                         <a href="tel:+918219808339">+91-8219808339</a>
                     </div>
-                    <div class="contact-item">
-                        <i class="fab fa-linkedin"></i>
-                        <a href="https://linkedin.com/in/jayash-bhardwaj" target="_blank">linkedin.com/in/jayash-bhardwaj</a>
+                    <div class="social-grid">
+                        <div class="contact-item social-item" data-aos="fade-up" data-aos-delay="150">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="https://linkedin.com/in/jayash-bhardwaj" target="_blank">LinkedIn</a>
+                        </div>
+                        <div class="contact-item social-item" data-aos="fade-up" data-aos-delay="200">
+                            <i class="fab fa-github"></i>
+                            <a href="https://github.com/jayash1973" target="_blank">GitHub</a>
+                        </div>
+                        <div class="contact-item social-item" data-aos="fade-up" data-aos-delay="250">
+                            <i class="fab fa-twitter"></i>
+                            <a href="https://x.com/bhardwaj_jayash?t=_oQ6U3uzd6zegpcycV104A&s=35" target="_blank">Twitter</a>
+                        </div>
+                        <div class="contact-item social-item" data-aos="fade-up" data-aos-delay="300">
+                            <i class="fab fa-instagram"></i>
+                            <a href="https://www.instagram.com/jayashh_bhardwaaj?igsh=YTU4Mm8xYjFxd3Yw" target="_blank">Instagram</a>
+                        </div>
                     </div>
-                    <div class="contact-item">
-                        <i class="fab fa-github"></i>
-                        <a href="https://github.com/jayash1973" target="_blank">github.com/jayash1973</a>
-                    </div>
+                </div>
+                <div class="contact-cta" data-aos="fade-up" data-aos-delay="350">
+                    <a href="https://t.me/Heavenly_Dao" class="btn primary-btn magnetic-btn">
+                        <i class="fas fa-paper-plane"></i> Get In Touch
+                    </a>
+                    <p class="contact-subtitle">Contact me on telegram</p>
                 </div>
             </div>
         </div>

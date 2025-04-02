@@ -431,6 +431,63 @@ function setupBackgroundEffects() {
                 }
             }
         });
+        
+        // Interactive ML visualization elements
+        const mlVisualContainer = document.querySelector('.ml-visual-container');
+        if (mlVisualContainer) {
+            const rect = mlVisualContainer.getBoundingClientRect();
+            if (e.clientX >= rect.left && e.clientX <= rect.right && 
+                e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                
+                // Calculate relative position within the container
+                const relX = (e.clientX - rect.left) / rect.width;
+                const relY = (e.clientY - rect.top) / rect.height;
+                
+                // Make nodes react to cursor proximity
+                const nodes = mlVisualContainer.querySelectorAll('.nn-node');
+                nodes.forEach(node => {
+                    const nodeRect = node.getBoundingClientRect();
+                    const nodeX = (nodeRect.left + nodeRect.width/2 - rect.left) / rect.width;
+                    const nodeY = (nodeRect.top + nodeRect.height/2 - rect.top) / rect.height;
+                    
+                    const distance = Math.sqrt(Math.pow(relX - nodeX, 2) + Math.pow(relY - nodeY, 2));
+                    if (distance < 0.2) {
+                        const intensity = 1 - (distance / 0.2);
+                        node.style.transform = `scale(${1 + intensity * 0.5})`;
+                        node.style.boxShadow = `0 0 ${10 * intensity}px var(--secondary)`;
+                    } else {
+                        node.style.transform = '';
+                        node.style.boxShadow = '';
+                    }
+                });
+                
+                // Make data points react to cursor
+                const dataPoints = mlVisualContainer.querySelectorAll('.data-point');
+                dataPoints.forEach(point => {
+                    const x = parseFloat(point.style.getPropertyValue('--x'))/100;
+                    const y = parseFloat(point.style.getPropertyValue('--y'))/100;
+                    
+                    const distance = Math.sqrt(Math.pow(relX - x, 2) + Math.pow(relY - y, 2));
+                    if (distance < 0.15) {
+                        const intensity = 1 - (distance / 0.15);
+                        point.style.transform = `scale(${1 + intensity * 1.5})`;
+                        point.style.zIndex = '10';
+                    } else {
+                        point.style.transform = '';
+                        point.style.zIndex = '';
+                    }
+                });
+                
+                // Make decision boundary shift slightly with mouse
+                const boundary = mlVisualContainer.querySelector('.decision-boundary');
+                if (boundary) {
+                    const offsetX = (relX - 0.5) * 20; // Limit shift to 20px
+                    const offsetY = (relY - 0.5) * 20;
+                    boundary.style.marginLeft = `${offsetX}px`;
+                    boundary.style.marginTop = `${offsetY}px`;
+                }
+            }
+        }
     });
     
     // Create flying particles effect with enhanced visuals
@@ -484,6 +541,98 @@ function setupBackgroundEffects() {
     for (let i = 0; i < 10; i++) {
         setTimeout(createFlyingParticles, i * 300);
     }
+    
+    // Setup interactive ML visualization connections
+    setupMLConnections();
+}
+
+// Function to add interactive connections to ML visualization
+function setupMLConnections() {
+    const mlVisualContainer = document.querySelector('.ml-visual-container');
+    if (!mlVisualContainer) return;
+    
+    // Create dynamic connections between neural network nodes
+    const layers = mlVisualContainer.querySelectorAll('.nn-layer');
+    for (let i = 0; i < layers.length - 1; i++) {
+        const currentLayer = layers[i];
+        const nextLayer = layers[i + 1];
+        
+        const currentNodes = currentLayer.querySelectorAll('.nn-node');
+        const nextNodes = nextLayer.querySelectorAll('.nn-node');
+        
+        currentNodes.forEach(currentNode => {
+            nextNodes.forEach(nextNode => {
+                // Create connection element
+                const connection = document.createElement('div');
+                connection.className = 'nn-connection';
+                
+                // Set positioning based on nodes
+                const containerRect = mlVisualContainer.getBoundingClientRect();
+                const currentRect = currentNode.getBoundingClientRect();
+                const nextRect = nextNode.getBoundingClientRect();
+                
+                const startX = currentRect.left + currentRect.width/2 - containerRect.left;
+                const startY = currentRect.top + currentRect.height/2 - containerRect.top;
+                const endX = nextRect.left + nextRect.width/2 - containerRect.left;
+                const endY = nextRect.top + nextRect.height/2 - containerRect.top;
+                
+                const distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+                const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
+                
+                // Apply styles
+                connection.style.width = `${distance}px`;
+                connection.style.left = `${startX}px`;
+                connection.style.top = `${startY}px`;
+                connection.style.transform = `rotate(${angle}deg)`;
+                
+                // Apply random animation delay for more natural feel
+                connection.style.animationDelay = `${Math.random() * 2}s`;
+                
+                // Add to container
+                mlVisualContainer.appendChild(connection);
+            });
+        });
+    }
+    
+    // Add interactive hover effects for floating terms
+    const terms = mlVisualContainer.querySelectorAll('.floating-term');
+    terms.forEach(term => {
+        term.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.4)';
+            this.style.textShadow = '0 0 15px var(--accent)';
+            this.style.zIndex = '100';
+            
+            // Make nearby data points pulse
+            const termRect = this.getBoundingClientRect();
+            const containerRect = mlVisualContainer.getBoundingClientRect();
+            const termX = (termRect.left + termRect.width/2 - containerRect.left) / containerRect.width;
+            const termY = (termRect.top + termRect.height/2 - containerRect.top) / containerRect.height;
+            
+            const dataPoints = mlVisualContainer.querySelectorAll('.data-point');
+            dataPoints.forEach(point => {
+                const x = parseFloat(point.style.getPropertyValue('--x'))/100;
+                const y = parseFloat(point.style.getPropertyValue('--y'))/100;
+                
+                const distance = Math.sqrt(Math.pow(termX - x, 2) + Math.pow(termY - y, 2));
+                if (distance < 0.3) {
+                    point.style.animation = 'dataPointGlow 1s infinite alternate ease-in-out';
+                }
+            });
+        });
+        
+        term.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.textShadow = '';
+            this.style.zIndex = '';
+            
+            // Reset data point animations
+            const dataPoints = mlVisualContainer.querySelectorAll('.data-point');
+            dataPoints.forEach(point => {
+                point.style.animation = `dataPointAppear 0.5s forwards ${point.style.getPropertyValue('--delay')}, 
+                                        dataPointGlow 3s infinite alternate ease-in-out ${point.style.getPropertyValue('--delay')}`;
+            });
+        });
+    });
 }
 
 // Initialize all new effects
