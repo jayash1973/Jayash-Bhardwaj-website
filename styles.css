@@ -40,6 +40,15 @@
     animation: blinking-cursor 0.8s step-end infinite;
 }
 
+.social-item i {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-item:hover i {
+    transform: scale(1.2);
+    color: var(--secondary); /* Change this to the respective color for each icon */
+}
+
 @keyframes blinking-cursor {
     from, to {
         border-color: transparent;
